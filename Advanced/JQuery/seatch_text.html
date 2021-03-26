@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <input type="text" id="time" style="border: 3px solid red; text-align: center">
+    <ul id="container">
+    </ul>
+    <input id="text" type="text" value="">
+    <input id="btn_add" type="button" value="Add">
+    <input id="search_char" type="text" placeholder="Search">
+    <input id="btn_search" type="button" value="Search">
+
+    <p id="result_search"></p>
+
+<div id="result"></div>
+    <script>
+    window.onload = function() {
+        countdown(30);
+    }
+    function countdown(sec){
+        let minutes = Math.floor(sec / 60);
+        let seconds = sec % 60;
+        let time = (minutes < 10 ? '0' + minutes : minutes) + ':' +
+                (seconds < 10 ? '0' + seconds : seconds)
+        document.getElementById('time').value = time
+        setInterval(() => {
+            if (sec > 0) {
+                sec--
+                minutes = Math.floor(sec / 60);
+                seconds = sec % 60;
+                time = (minutes < 10 ? '0' + minutes : minutes) + ':' +
+                        (seconds < 10 ? '0' + seconds : seconds)
+                document.getElementById('time').value = time
+            }
+        }, 1000)
+    }
+    $('#btn_add').on('click', function() {
+        var textValue = $('#text').val()
+        $('#container').append("<li id="+ textValue + ">" + textValue + "</li>")
+        $('#' + textValue).append("<a href='#' id=" + textValue + " class='text' > Delete</a>")
+        let liValues = $('#container').find('li').toArray().map((li) => $(li).text()).join(', ')
+        $('#result').text(liValues)
+        $('#text').val('')
+    })
+    $('#container').on('click', function(e) {
+        // $('#container li').each((index, el) => {
+        //     console.log(index + '' + el)
+        // })
+        // $('#container').find('li').toArray().forEach((el, ind) => {
+        //     console.log(ind + '' + el)
+        // })
+        var value = e.target.id
+
+        $('#container > #'+ aa).remove();
+        console.log(aa)
+        })
+
+    $('#btn_search').on('click', function () {
+        let searchTextValue = $('#search_char').val()
+        let counter = 0
+        $('#container').find('li').each((index, el) => {
+            if (el.textContent.includes(searchTextValue)) {
+                $(el).css('font-weight', 'bold')
+                counter++
+            }
+        })
+        $('#result_search').text(counter + ' matches found')
+    })
+    </script>
+</body>
+</html>
